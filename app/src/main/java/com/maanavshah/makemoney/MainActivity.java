@@ -49,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
             public void onInitializationComplete(InitializationStatus initializationStatus) {}
         });
 
+
+              startActivity(new Intent(this, NavigationActivity.class));
+
         refresh = findViewById(R.id.btn_refresh);
         startVideoAdsMuted = findViewById(R.id.cb_start_muted);
         videoStatus = findViewById(R.id.tv_video_status);
@@ -62,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         refreshAd();
 
-//        startActivity(new Intent(this, NavigationActivity.class));
+
     }
 
        /**
