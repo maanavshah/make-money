@@ -27,6 +27,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    // https://github.com/shrikanth7698/Custom-Navigation-Drawer
+    // Navigation Drawer - https://github.com/shrikanth7698/Custom-Navigation-Drawer
     implementation 'com.github.shrikanth7698:Custom-Navigation-Drawer:v0.0.1'
+
+    // AdMob Integration - https://developers.google.com/admob/android/quick-start?hl=en-US#import_the_mobile_ads_sdk
+    implementation 'com.google.android.gms:play-services-ads:18.3.0'
 }

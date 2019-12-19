@@ -23,14 +23,6 @@ public class HomeFragment extends Fragment {
 
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        button = view.findViewById(R.id.home_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(view.getContext(), "Clicked button", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         return view;
     }
 

@@ -1,20 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="This is home Fragment"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
 
-    <Button
-        android:id="@+id/home_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Home Button" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+
+        <ImageButton
+            android:id="@+id/btn_video_watch"
+            android:layout_width="match_parent"
+            android:layout_height="20pt"
+            android:text="Watch Video"
+            tools:srcCompat="@drawable/ic_home" />
+
+        <ImageButton
+            android:id="@+id/btn_daily_earn"
+            android:layout_width="match_parent"
+            android:layout_height="20pt"
+            android:text="Daily Earn"
+            tools:srcCompat="@drawable/ic_home" />
+
+        <ImageButton
+            android:id="@+id/btn_web_view"
+            android:layout_width="match_parent"
+            android:layout_height="20pt"
+            android:text="Webview"
+            tools:srcCompat="@drawable/ic_home" />
+
+        <ImageButton
+            android:id="@+id/btn_scratch"
+            android:layout_width="match_parent"
+            android:layout_height="20pt"
+            android:text="Scratch"
+            tools:srcCompat="@drawable/ic_home" />
+
+        <ImageButton
+            android:id="@+id/btn_slot"
+            android:layout_width="match_parent"
+            android:layout_height="20pt"
+            android:text="Slot"
+            tools:srcCompat="@drawable/ic_home" />
+
+        <ImageButton
+            android:id="@+id/btn_spin"
+            android:layout_width="match_parent"
+            android:layout_height="20pt"
+            android:text="Spin"
+            tools:srcCompat="@drawable/ic_home" />
+    </LinearLayout>
 </RelativeLayout>
