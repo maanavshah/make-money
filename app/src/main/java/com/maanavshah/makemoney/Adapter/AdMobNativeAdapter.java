@@ -1,17 +1,14 @@
-package com.maanavshah.makemoney;
+package com.maanavshah.makemoney.Adapter;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdLoader;
@@ -25,38 +22,30 @@ import com.google.android.gms.ads.formats.UnifiedNativeAd;
 import com.google.android.gms.ads.formats.UnifiedNativeAdView;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.maanavshah.makemoney.R;
 
-import java.util.Locale;
-
-
-public class MainActivity extends AppCompatActivity {
+public class AdMobNativeAdapter {
 
     private static final String ADMOB_AD_UNIT_ID = "ca-app-pub-3940256099942544/2247696110";
 
+    private final Fragment fragment;
+    private final View view;
     private Button refresh;
-    private CheckBox startVideoAdsMuted;
-    private TextView videoStatus;
     private UnifiedNativeAd nativeAd;
 
+    public AdMobNativeAdapter(Fragment activityFragment, View activityView) {
+        fragment = activityFragment;
+        view = activityView;
+    }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+    public void setupNativeAdMob() {
+        MobileAds.initialize(view.getContext(), new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
 
-
-        startActivity(new Intent(this, NavigationActivity.class));
-
-        refresh = findViewById(R.id.btn_refresh);
-        startVideoAdsMuted = findViewById(R.id.cb_start_muted);
-        videoStatus = findViewById(R.id.tv_video_status);
-
+        refresh = view.findViewById(R.id.btn_refresh);
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View unusedView) {
@@ -65,9 +54,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         refreshAd();
-
-
     }
+
 
     /**
      * Populates a {@link UnifiedNativeAdView} object with data from a given
@@ -159,10 +147,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Updates the UI to say whether or not this ad has a video asset.
         if (vc.hasVideoContent()) {
-            videoStatus.setText(String.format(Locale.getDefault(),
-                    "Video status: Ad contains a %.2f:1 video asset.",
-                    vc.getAspectRatio()));
-
             // Create a new VideoLifecycleCallbacks object and pass it to the VideoController. The
             // VideoController will call methods on this object when events occur in the video
             // lifecycle.
@@ -172,12 +156,10 @@ public class MainActivity extends AppCompatActivity {
                     // Publishers should allow native ads to complete video playback before
                     // refreshing or replacing them with another ad in the same UI location.
                     refresh.setEnabled(true);
-                    videoStatus.setText("Video status: Video playback has ended.");
                     super.onVideoEnd();
                 }
             });
         } else {
-            videoStatus.setText("Video status: Ad does not contain a video asset.");
             refresh.setEnabled(true);
         }
     }
@@ -189,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
     private void refreshAd() {
         refresh.setEnabled(false);
 
-        AdLoader.Builder builder = new AdLoader.Builder(this, ADMOB_AD_UNIT_ID);
+        AdLoader.Builder builder = new AdLoader.Builder(view.getContext(), ADMOB_AD_UNIT_ID);
 
         builder.forUnifiedNativeAd(new UnifiedNativeAd.OnUnifiedNativeAdLoadedListener() {
             // OnUnifiedNativeAdLoadedListener implementation.
@@ -202,8 +184,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 nativeAd = unifiedNativeAd;
                 FrameLayout frameLayout =
-                        findViewById(R.id.fl_adplaceholder);
-                UnifiedNativeAdView adView = (UnifiedNativeAdView) getLayoutInflater()
+                        view.findViewById(R.id.fl_adplaceholder);
+                UnifiedNativeAdView adView = (UnifiedNativeAdView) fragment.getLayoutInflater()
                         .inflate(R.layout.ad_unified, null);
                 populateUnifiedNativeAdView(unifiedNativeAd, adView);
                 frameLayout.removeAllViews();
@@ -213,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         VideoOptions videoOptions = new VideoOptions.Builder()
-                .setStartMuted(startVideoAdsMuted.isChecked())
+                .setStartMuted(false)
                 .build();
 
         NativeAdOptions adOptions = new NativeAdOptions.Builder()
@@ -226,22 +208,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAdFailedToLoad(int errorCode) {
                 refresh.setEnabled(true);
-                Toast.makeText(MainActivity.this, "Failed to load native ad: "
+                Toast.makeText(view.getContext(), "Failed to load native ad: "
                         + errorCode, Toast.LENGTH_SHORT).show();
             }
         }).build();
 
         adLoader.loadAd(new AdRequest.Builder().build());
-
-        videoStatus.setText("");
     }
-
-    @Override
-    protected void onDestroy() {
-        if (nativeAd != null) {
-            nativeAd.destroy();
-        }
-        super.onDestroy();
-    }
-
 }

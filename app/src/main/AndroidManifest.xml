@@ -13,6 +13,7 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-4388442185204641~6967038265"/>
+            <!-- TODO:: Maanav:: Change android value here -->
 
         <activity android:name=".NavigationActivity" />
         <activity android:name=".MainActivity">
