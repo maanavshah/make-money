@@ -16,10 +16,10 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/button1"
+                android:id="@+id/btn_watch_video"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:text="Watch Video" />
 
             <Button
                 android:id="@+id/button2"
