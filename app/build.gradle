@@ -32,4 +32,7 @@ dependencies {
 
     // AdMob Integration - https://developers.google.com/admob/android/quick-start?hl=en-US#import_the_mobile_ads_sdk
     implementation 'com.google.android.gms:play-services-ads:18.3.0'
+
+    // Scratch Card Implementation - https://github.com/myinnos/AndroidScratchCard
+    implementation 'com.github.myinnos:AndroidScratchCard:v1.0'
 }
