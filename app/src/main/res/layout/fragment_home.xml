@@ -28,10 +28,10 @@
                 android:text="Button" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/btn_web_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:text="Web View" />
 
             <Button
                 android:id="@+id/btn_scratch_card"

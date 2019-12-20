@@ -35,4 +35,7 @@ dependencies {
 
     // Scratch Card Implementation - https://github.com/myinnos/AndroidScratchCard
     implementation 'com.github.myinnos:AndroidScratchCard:v1.0'
+
+    // Advanced Webview - https://github.com/delight-im/Android-AdvancedWebView
+    implementation 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
 }
