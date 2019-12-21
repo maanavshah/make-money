@@ -8,7 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-        <style name="AppTheme.AdAttribution">
+
+    <style name="AppTheme.AdAttribution">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">left</item>
@@ -19,5 +20,13 @@
         <item name="android:width">15dp</item>
         <item name="android:height">15dp</item>
     </style>
+
+    <style name="AppTheme.Launcher">
+    <item name="android:windowBackground">@drawable/launcher_screen_with_logo</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowActionBar">false</item>
+    <item name="android:windowFullscreen">true</item>
+    <item name="android:windowContentOverlay">@null</item>
+</style>
 
 </resources>

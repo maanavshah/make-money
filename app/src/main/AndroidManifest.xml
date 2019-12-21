@@ -20,7 +20,9 @@
             android:value="ca-app-pub-4388442185204641~6967038265" /> <!-- TODO:: Maanav:: Change android value here -->
         <activity android:name=".WatchVideoActivity" />
         <activity android:name=".NavigationActivity" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

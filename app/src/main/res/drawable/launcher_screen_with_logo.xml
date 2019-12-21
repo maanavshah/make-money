@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:opacity="opaque">
+
+    <!--Background color of your Splash Screen-->
+    <item android:drawable="@color/colorPrimaryDark" />
+
+    <item
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        android:height="288dp"
+        android:width="288dp"
+        android:gravity="center">
+        <!--This logo is 144x144 px. If your image is larger, you should scale it to fit nicely-->
+        <bitmap
+            android:src="@drawable/make_money_app" />
+    </item>
+
+</layer-list>
