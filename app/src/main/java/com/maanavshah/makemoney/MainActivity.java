@@ -2,6 +2,7 @@ package com.maanavshah.makemoney;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        startActivity(new Intent(this, RegistrationActivity.class));
+        startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
 

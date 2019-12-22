@@ -20,97 +20,52 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class RegistrationActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
+//    public static String LOGIN_REQUEST = "http://10.0.2.2:3000/api/users/sign_in";
+    public static String LOGIN_REQUEST = "https://makemoneyadmin.herokuapp.com/api/users/sign_in";
 
-    //    TODO::MAANAV:: Change this url
-//    public static String REGISTER_REQUEST = "http://10.0.2.2:3000/api/users";
-    public static String REGISTER_REQUEST = "https://makemoneyadmin.herokuapp.com/api/users";
-
-    private EditText et_first_name;
-    private EditText et_last_name;
     private EditText et_email;
     private EditText et_password;
-    private EditText et_confirm_password;
-    private Button register;
-    private String first_name;
-    private String last_name;
+    private Button login;
+    private Button new_register;
     private String email;
     private String password;
-    private String confirm_password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
+        setContentView(R.layout.activity_login);
 
-        et_first_name = findViewById(R.id.register_first_name);
-        et_last_name = findViewById(R.id.register_last_name);
-        et_email = findViewById(R.id.register_email);
-        et_password = findViewById(R.id.register_password);
-        et_confirm_password = findViewById(R.id.register_password_confirm);
+        et_email = findViewById(R.id.login_email);
+        et_password = findViewById(R.id.login_password);
 
-        register = findViewById(R.id.button_register);
-
-        register.setOnClickListener(new View.OnClickListener() {
+        new_register = findViewById(R.id.button_new_register);
+        new_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), RegistrationActivity.class));
+                finish();
+            }
+        });
+        login = findViewById(R.id.button_login);
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isValid()) {
-                    sendRegisterRequest();
+                    sendLoginRequest();
                 }
             }
         });
     }
 
-    private boolean isValid() {
-        getInputData();
-        boolean flag = true;
-        if (isEmptyText(first_name)) {
-            et_first_name.setError("First name is required");
-            flag = false;
-        }
-        if (isEmptyText(last_name)) {
-            et_last_name.setError("Last name is required");
-            flag = false;
-        }
-        if (isEmptyText(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(this, "Please enter valid email id!", Toast.LENGTH_SHORT).show();
-            et_email.setError("Email is required");
-            flag = false;
-        }
-        if (isEmptyText(password)) {
-            et_password.setError("Password is required");
-            flag = false;
-        }
-        if (isEmptyText(confirm_password)) {
-            et_confirm_password.setError("Password confirmation is required");
-            flag = false;
-        }
-        if (!password.equals(confirm_password)) {
-            Toast.makeText(this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
-            flag = false;
-        }
-        return flag;
-    }
+    private void sendLoginRequest() {
 
-    private boolean isEmptyText(String text) {
-        return TextUtils.isEmpty(text);
-    }
-
-    private void getInputData() {
-        first_name = et_first_name.getText().toString();
-        last_name = et_last_name.getText().toString();
-        email = et_email.getText().toString();
-        password = et_password.getText().toString();
-        confirm_password = et_confirm_password.getText().toString();
-    }
-
-    public void sendRegisterRequest() {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    URL url = new URL(REGISTER_REQUEST);
+                    URL url = new URL(LOGIN_REQUEST);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
@@ -121,11 +76,8 @@ public class RegistrationActivity extends AppCompatActivity {
                     getInputData();
 
                     JSONObject jsonParam = new JSONObject();
-                    jsonParam.put("first_name", first_name);
-                    jsonParam.put("last_name", last_name);
                     jsonParam.put("email", email);
                     jsonParam.put("password", password);
-                    jsonParam.put("confirm_password", confirm_password);
 
                     DataOutputStream os = new DataOutputStream(conn.getOutputStream());
                     os.writeBytes(jsonParam.toString());
@@ -136,7 +88,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     String responseCode = String.valueOf(conn.getResponseCode());
 
                     InputStream inputStream;
-                    if (responseCode.equals("201")) {
+                    if (responseCode.equals("200")) {
                         inputStream = conn.getInputStream();
                     } else {
                         inputStream = conn.getErrorStream();
@@ -159,11 +111,11 @@ public class RegistrationActivity extends AppCompatActivity {
 
                     conn.disconnect();
 
-                    if (responseCode.equals("201")) {
+                    if (responseCode.equals("200")) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                                startActivity(new Intent(getApplicationContext(), NavigationActivity.class));
                                 finish();
                             }
                         });
@@ -175,5 +127,29 @@ public class RegistrationActivity extends AppCompatActivity {
         });
 
         thread.start();
+    }
+
+    private boolean isValid() {
+        getInputData();
+        boolean flag = true;
+        if (isEmptyText(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Please enter valid email id!", Toast.LENGTH_SHORT).show();
+            et_email.setError("Email is required");
+            flag = false;
+        }
+        if (isEmptyText(password)) {
+            et_password.setError("Password is required");
+            flag = false;
+        }
+        return flag;
+    }
+
+    private boolean isEmptyText(String text) {
+        return TextUtils.isEmpty(text);
+    }
+
+    private void getInputData() {
+        email = et_email.getText().toString();
+        password = et_password.getText().toString();
     }
 }
