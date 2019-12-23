@@ -64,10 +64,4 @@ public class HomeFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
     }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle("Home");
-    }
 }

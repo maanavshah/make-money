@@ -45,14 +45,6 @@ public class AdMobNativeAdapter {
             }
         });
 
-        refresh = view.findViewById(R.id.btn_refresh);
-        refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View unusedView) {
-                refreshAd();
-            }
-        });
-
         refreshAd();
     }
 
@@ -69,6 +61,14 @@ public class AdMobNativeAdapter {
         // adView.setNativeAd() is called.
         MediaView mediaView = adView.findViewById(R.id.ad_media);
         adView.setMediaView(mediaView);
+
+        refresh = adView.findViewById(R.id.ad_refresh);
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View unusedView) {
+                refreshAd();
+            }
+        });
 
         // Set other ad assets.
         adView.setHeadlineView(adView.findViewById(R.id.ad_headline));
@@ -169,7 +169,9 @@ public class AdMobNativeAdapter {
      * corresponding "populate" method when one is successfully returned.
      */
     private void refreshAd() {
-        refresh.setEnabled(false);
+        if (refresh != null) {
+            refresh.setEnabled(false);
+        }
 
         AdLoader.Builder builder = new AdLoader.Builder(view.getContext(), ADMOB_AD_UNIT_ID);
 
