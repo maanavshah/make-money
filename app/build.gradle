@@ -38,4 +38,7 @@ dependencies {
 
     // Advanced Webview - https://github.com/delight-im/Android-AdvancedWebView
     implementation 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
+
+    // Splash screen - https://github.com/mrgames13/splash-screen
+    implementation 'com.github.mrgames13:SplashScreen:1.1.0'
 }
