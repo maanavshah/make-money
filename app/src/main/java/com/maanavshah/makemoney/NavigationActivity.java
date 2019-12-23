@@ -1,7 +1,6 @@
 package com.maanavshah.makemoney;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -35,22 +34,24 @@ public class NavigationActivity extends AppCompatActivity {
         //First parameter is the title of the menu item and then the second parameter is the image which will be the background of the menu item.
 
         menuItems.add(new MenuItem("Home", R.drawable.news_bg));
+        menuItems.add(new MenuItem("Redeem Wallet", R.drawable.music_bg));
+        menuItems.add(new MenuItem("Policy Page", R.drawable.message_bg));
         menuItems.add(new MenuItem("Contact Us", R.drawable.feed_bg));
-        menuItems.add(new MenuItem("Share", R.drawable.message_bg));
 
         sNavigationDrawer.setMenuItemList(menuItems);
         fragmentClass = HomeFragment.class;
+        sNavigationDrawer.setAppbarTitleTV("Home");
+
         try {
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }
         if (fragment != null) {
-
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out).replace(R.id.frameLayout, fragment).commit();
-        }
 
+        }
 
         //Listener to handle the menu item click. It returns the position of the menu item clicked. Based on that you can switch between the fragments.
         sNavigationDrawer.setOnMenuItemClickListener(new SNavigationDrawer.OnMenuItemClickListener() {
@@ -61,10 +62,9 @@ public class NavigationActivity extends AppCompatActivity {
                 switch (position) {
                     case 0: {
                         fragmentClass = HomeFragment.class;
-                        Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_SHORT).show();
+                        sNavigationDrawer.setAppbarTitleTV("Home");
                         break;
                     }
-
                 }
 
                 //Listener for drawer events such as opening and closing.
@@ -82,8 +82,6 @@ public class NavigationActivity extends AppCompatActivity {
 
                     @Override
                     public void onDrawerClosing() {
-                        System.out.println("Drawer closed");
-
                         try {
                             fragment = (Fragment) fragmentClass.newInstance();
                         } catch (Exception e) {
@@ -93,7 +91,6 @@ public class NavigationActivity extends AppCompatActivity {
                         if (fragment != null) {
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             fragmentManager.beginTransaction().setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out).replace(R.id.frameLayout, fragment).commit();
-
                         }
                     }
 
