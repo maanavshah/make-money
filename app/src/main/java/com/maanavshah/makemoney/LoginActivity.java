@@ -127,14 +127,14 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d("Login-Activity coins", coins);
                         if (coins.isEmpty()) {
                             Log.d("Login-Activity empty", coins);
-                            stringBuilder = new StringBuilder(WALLET_REQUEST);
-                            stringBuilder.append("?coins=");
-                            stringBuilder.append(URLEncoder.encode("0", "UTF-8"));
-                            stringBuilder.append("&email=");
-                        } else {
-                            Log.d("Login-Activ not empty", coins);
                             stringBuilder = new StringBuilder(GET_COINS_URL);
                             stringBuilder.append("?email=");
+                        } else {
+                            Log.d("Login-Activ not empty", coins);
+                            stringBuilder = new StringBuilder(WALLET_REQUEST);
+                            stringBuilder.append("?coins=");
+                            stringBuilder.append(URLEncoder.encode(coins, "UTF-8"));
+                            stringBuilder.append("&email=");
                         }
 
                         stringBuilder.append(URLEncoder.encode(email, "UTF-8"));

@@ -48,6 +48,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(view.getContext(), WatchVideoActivity.class));
+                getActivity().finish();
             }
         });
         Button btn_scratch_card = view.findViewById(R.id.btn_scratch_card);
@@ -55,6 +56,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(view.getContext(), ScratchActivity.class));
+                getActivity().finish();
             }
         });
         Button btn_web_view = view.findViewById(R.id.btn_web_view);
@@ -62,6 +64,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(view.getContext(), WebViewActivity.class));
+                getActivity().finish();
             }
         });
     }
