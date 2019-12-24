@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public static String LOGIN_REQUEST = "http://10.0.2.2:3000/api/users/sign_in";
 //    public static String LOGIN_REQUEST = "https://makemoneyadmin.herokuapp.com/api/users/sign_in";
-    public static String WALLET_REQUEST = "http://10.0.2.2:3000/api/users/get_coins";
+    public static String WALLET_REQUEST = "http://10.0.2.2:3000/api/users/set_coins";
     public static String GET_COINS_URL = "http://10.0.2.2:3000/api/users/get_coins";
     public static String SET_COINS_URL = "http://10.0.2.2:3000/api/users/set_coins";
 
@@ -126,13 +126,17 @@ public class LoginActivity extends AppCompatActivity {
                         String coins = SharedConfig.getConfig(getApplicationContext(), email);
                         Log.d("Login-Activity coins", coins);
                         if (coins.isEmpty()) {
-                            stringBuilder = new StringBuilder(GET_COINS_URL);
-                        } else {
-                            stringBuilder = new StringBuilder(SET_COINS_URL);
+                            Log.d("Login-Activity empty", coins);
+                            stringBuilder = new StringBuilder(WALLET_REQUEST);
                             stringBuilder.append("?coins=");
-                            stringBuilder.append(URLEncoder.encode(coins, "UTF-8"));
+                            stringBuilder.append(URLEncoder.encode("0", "UTF-8"));
+                            stringBuilder.append("&email=");
+                        } else {
+                            Log.d("Login-Activ not empty", coins);
+                            stringBuilder = new StringBuilder(GET_COINS_URL);
+                            stringBuilder.append("?email=");
                         }
-                        stringBuilder.append("?email=");
+
                         stringBuilder.append(URLEncoder.encode(email, "UTF-8"));
                         Log.d("Login-Activity url", stringBuilder.toString());
                         HttpGetRequest getRequest = new HttpGetRequest(getApplicationContext());
