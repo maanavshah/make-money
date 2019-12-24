@@ -28,13 +28,9 @@ public class HttpGetRequest extends AsyncTask<String, Void, String> {
 
 
         try {
-            String email = SharedConfig.getConfig(context, "email");
-            StringBuilder stringBuilder = new StringBuilder(stringUrl);
-            stringBuilder.append("?email=");
-            stringBuilder.append(URLEncoder.encode(email, "UTF-8"));
 
             //Create a URL object holding our url
-            URL myUrl = new URL(stringBuilder.toString());         //Create a connection
+            URL myUrl = new URL(stringUrl);         //Create a connection
             HttpURLConnection connection = (HttpURLConnection)
                     myUrl.openConnection();         //Set methods and timeouts
             connection.setRequestMethod(REQUEST_METHOD);
@@ -46,7 +42,7 @@ public class HttpGetRequest extends AsyncTask<String, Void, String> {
             InputStreamReader streamReader = new
                     InputStreamReader(connection.getInputStream());         //Create a new buffered reader and String Builder
             BufferedReader reader = new BufferedReader(streamReader);
-            stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder();
             while ((inputLine = reader.readLine()) != null) {
                 stringBuilder.append(inputLine);
             }         //Close our InputStream and Buffered reader

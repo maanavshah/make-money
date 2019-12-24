@@ -1,10 +1,9 @@
 package com.maanavshah.makemoney;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.maanavshah.makemoney.Helper.HttpGetRequest;
 import com.maanavshah.makemoney.Helper.SharedConfig;
 
 import org.json.JSONObject;
@@ -23,12 +23,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 public class LoginActivity extends AppCompatActivity {
 
     public static String LOGIN_REQUEST = "http://10.0.2.2:3000/api/users/sign_in";
 //    public static String LOGIN_REQUEST = "https://makemoneyadmin.herokuapp.com/api/users/sign_in";
     public static String WALLET_REQUEST = "http://10.0.2.2:3000/api/users/get_coins";
+    public static String GET_COINS_URL = "http://10.0.2.2:3000/api/users/get_coins";
+    public static String SET_COINS_URL = "http://10.0.2.2:3000/api/users/set_coins";
 
     private EditText et_email;
     private EditText et_password;
@@ -36,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button new_register;
     private String email;
     private String password;
-    private SharedPreferences sharedpreferences;
+    private StringBuilder stringBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +122,29 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (responseCode.equals("200")) {
                         SharedConfig.setConfig(getApplicationContext(), "email", email);
+                        Log.d("Login-Activity", email);
+                        String coins = SharedConfig.getConfig(getApplicationContext(), email);
+                        Log.d("Login-Activity coins", coins);
+                        if (coins.isEmpty()) {
+                            stringBuilder = new StringBuilder(GET_COINS_URL);
+                        } else {
+                            stringBuilder = new StringBuilder(SET_COINS_URL);
+                            stringBuilder.append("?coins=");
+                            stringBuilder.append(URLEncoder.encode(coins, "UTF-8"));
+                        }
+                        stringBuilder.append("?email=");
+                        stringBuilder.append(URLEncoder.encode(email, "UTF-8"));
+                        Log.d("Login-Activity url", stringBuilder.toString());
+                        HttpGetRequest getRequest = new HttpGetRequest(getApplicationContext());
+                        coins = getRequest.execute(stringBuilder.toString()).get();
+
+                        if (coins != null) {
+                            Log.d("Login-Activity null", email);
+                            Log.d("Login-Activity null", coins);
+                            SharedConfig.setConfig(getApplicationContext(), email, coins);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "User email not found!", Toast.LENGTH_LONG).show();
+                        }
 
                         runOnUiThread(new Runnable() {
                             @Override
