@@ -1,6 +1,8 @@
 package com.maanavshah.makemoney;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -10,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.maanavshah.makemoney.Helper.SharedConfig;
 
 import org.json.JSONObject;
 
@@ -22,8 +26,9 @@ import java.net.URL;
 
 public class LoginActivity extends AppCompatActivity {
 
-//    public static String LOGIN_REQUEST = "http://10.0.2.2:3000/api/users/sign_in";
-    public static String LOGIN_REQUEST = "https://makemoneyadmin.herokuapp.com/api/users/sign_in";
+    public static String LOGIN_REQUEST = "http://10.0.2.2:3000/api/users/sign_in";
+//    public static String LOGIN_REQUEST = "https://makemoneyadmin.herokuapp.com/api/users/sign_in";
+    public static String WALLET_REQUEST = "http://10.0.2.2:3000/api/users/get_coins";
 
     private EditText et_email;
     private EditText et_password;
@@ -31,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button new_register;
     private String email;
     private String password;
+    private SharedPreferences sharedpreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +118,8 @@ public class LoginActivity extends AppCompatActivity {
                     conn.disconnect();
 
                     if (responseCode.equals("200")) {
+                        SharedConfig.setConfig(getApplicationContext(), "email", email);
+
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

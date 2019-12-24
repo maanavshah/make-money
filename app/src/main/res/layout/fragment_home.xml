@@ -2,6 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -10,45 +11,73 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center_vertical|center_horizontal"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_watch_video"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Watch Video" />
+    <com.maanavshah.makemoney.Header
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Button" />
 
-            <Button
-                android:id="@+id/btn_web_view"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Web View" />
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btn_scratch_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Scratch &amp; Win"/>
+                <Button
+                    android:id="@+id/btn_watch_video"
+                    android:layout_width="0dp"
+                    android:layout_height="160dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="20dp"
+                    android:layout_weight="0.5"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/watch_video"
+                    android:padding="4dp" />
 
-            <Button
-                android:id="@+id/button5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Button" />
+                <Button
+                    android:id="@+id/btn_daily_earn"
+                    android:layout_width="0dp"
+                    android:layout_height="160dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="20dp"
+                    android:layout_weight="0.5"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/daily_earn"
+                    android:padding="4dp" />
+            </LinearLayout>
 
-            <Button
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_web_view"
+                    android:layout_width="0dp"
+                    android:layout_height="160dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="20dp"
+                    android:layout_weight="0.5"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/browser"
+                    android:padding="4dp" />
+
+                <Button
+                    android:id="@+id/btn_scratch_card"
+                    android:layout_width="0dp"
+                    android:layout_height="160dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="20dp"
+                    android:layout_weight="0.5"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/scratch_win"
+                    android:padding="4dp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
