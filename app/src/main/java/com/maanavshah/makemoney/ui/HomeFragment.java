@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.maanavshah.makemoney.Adapter.AdMobNativeAdapter;
+import com.maanavshah.makemoney.DailyEarnActivity;
 import com.maanavshah.makemoney.Header;
 import com.maanavshah.makemoney.Helper.SharedConfig;
 import com.maanavshah.makemoney.R;
@@ -64,6 +65,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(view.getContext(), WebViewActivity.class));
+                getActivity().finish();
+            }
+        });
+        Button btn_daily_earn = view.findViewById(R.id.btn_daily_earn);
+        btn_daily_earn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(view.getContext(), DailyEarnActivity.class));
                 getActivity().finish();
             }
         });
