@@ -1,28 +1,50 @@
 package com.maanavshah.makemoney;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.maanavshah.makemoney.Helper.HttpGetRequest;
+import com.maanavshah.makemoney.Helper.SharedConfig;
 import com.maanavshah.makemoney.ui.HomeFragment;
 import com.shrikanthravi.customnavigationdrawer2.data.MenuItem;
 import com.shrikanthravi.customnavigationdrawer2.widget.SNavigationDrawer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class NavigationActivity extends AppCompatActivity {
 
     public static Fragment fragment;
     SNavigationDrawer sNavigationDrawer;
     Class fragmentClass;
+    private static final String GET_CONFIG = "http://10.0.2.2:3000/api/users/get_config";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+
+        StringBuilder stringBuilder = new StringBuilder(GET_CONFIG);
+        stringBuilder.append("?name=add_coins");
+        HttpGetRequest getRequest = new HttpGetRequest(getApplicationContext());
+        String add_coins = null;
+        try {
+            add_coins = getRequest.execute(stringBuilder.toString()).get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if (add_coins != null) {
+            SharedConfig.setConfig(getApplicationContext(), "add_coins", add_coins);
+        } else {
+            Toast.makeText(getApplicationContext(), "Error loading coins!", Toast.LENGTH_LONG).show();
+            SharedConfig.setConfig(getApplicationContext(), "add_coins", "0");
+        }
 
         sNavigationDrawer = findViewById(R.id.navigationDrawer);
 
@@ -72,12 +94,10 @@ public class NavigationActivity extends AppCompatActivity {
 
                     @Override
                     public void onDrawerOpened() {
-
                     }
 
                     @Override
                     public void onDrawerOpening() {
-
                     }
 
                     @Override
@@ -96,7 +116,6 @@ public class NavigationActivity extends AppCompatActivity {
 
                     @Override
                     public void onDrawerClosed() {
-
                     }
 
                     @Override

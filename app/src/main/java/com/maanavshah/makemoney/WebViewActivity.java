@@ -60,18 +60,9 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
             e.printStackTrace();
         }
 
-        stringBuilder = new StringBuilder(GET_CONFIG);
-        stringBuilder.append("?name=add_coins");
-        getRequest = new HttpGetRequest(getApplicationContext());
-        add_coins = null;
-        try {
-            add_coins = getRequest.execute(stringBuilder.toString()).get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        add_coins = SharedConfig.getConfig(getApplicationContext(), "add_coins");
 
-
-        if (webview_interval != null && add_coins != null) {
+        if (webview_interval != null) {
             HandlerThread hThread = new HandlerThread("HandlerThread");
             hThread.start();
             handler1 = new Handler(hThread.getLooper());
