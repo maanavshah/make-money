@@ -41,4 +41,7 @@ dependencies {
 
     // Splash screen - https://github.com/mrgames13/splash-screen
     implementation 'com.github.mrgames13:SplashScreen:1.1.0'
+
+    // Progress bar - https://github.com/daimajia/NumberProgressBar
+    compile 'com.daimajia.numberprogressbar:library:1.4@aar'
 }
