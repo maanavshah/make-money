@@ -118,7 +118,7 @@ public class DailyEarnActivity extends AppCompatActivity implements RewardedVide
 
     @Override
     public void onRewardedVideoAdClosed() {
-        // Preload the next video ad.
+        startActivity(new Intent(getApplicationContext(), NavigationActivity.class));
     }
 
     @Override
@@ -127,7 +127,6 @@ public class DailyEarnActivity extends AppCompatActivity implements RewardedVide
     }
 
     private void add_daily_reward() {
-
         String daily_reward_date = SharedConfig.getConfig(getApplicationContext(), "daily_reward_date");
         Log.d("daily reward date", daily_reward_date);
 
@@ -155,10 +154,8 @@ public class DailyEarnActivity extends AppCompatActivity implements RewardedVide
             } else {
                 Toast.makeText(getApplicationContext(), "Daily reward already collected!", Toast.LENGTH_LONG).show();
             }
-            startActivity(new Intent(getApplicationContext(), NavigationActivity.class));
         }
     }
-
     private void add_reward_coins() {
         String add_coins = SharedConfig.getConfig(getApplicationContext(), "add_coins");
         String email = SharedConfig.getConfig(getApplicationContext(), "email");
