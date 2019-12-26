@@ -1,6 +1,7 @@
 package com.maanavshah.makemoney;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import com.maanavshah.makemoney.Helper.HttpGetRequest;
 import com.maanavshah.makemoney.Helper.SharedConfig;
 import com.maanavshah.makemoney.ui.HomeFragment;
+import com.maanavshah.makemoney.ui.RedeemFragment;
 import com.shrikanthravi.customnavigationdrawer2.data.MenuItem;
 import com.shrikanthravi.customnavigationdrawer2.widget.SNavigationDrawer;
 
@@ -54,7 +56,7 @@ public class NavigationActivity extends AppCompatActivity {
         //Use the MenuItem given by this library and not the default one.
         //First parameter is the title of the menu item and then the second parameter is the image which will be the background of the menu item.
         menuItems.add(new MenuItem("Home", R.drawable.news_bg));
-        menuItems.add(new MenuItem("Redeem Wallet", R.drawable.music_bg));
+        menuItems.add(new MenuItem("Redeem Coins", R.drawable.music_bg));
         menuItems.add(new MenuItem("Policy Page", R.drawable.message_bg));
         menuItems.add(new MenuItem("Contact Us", R.drawable.feed_bg));
 
@@ -81,8 +83,15 @@ public class NavigationActivity extends AppCompatActivity {
 
                 switch (position) {
                     case 0: {
+                        Log.d("NavActivity", "Home Fragment");
                         fragmentClass = HomeFragment.class;
                         sNavigationDrawer.setAppbarTitleTV("Home");
+                        break;
+                    }
+                    case 1: {
+                        Log.d("NavActivity", "Redeem Fragment");
+                        fragmentClass = RedeemFragment.class;
+                        sNavigationDrawer.setAppbarTitleTV("Redeem Coins");
                         break;
                     }
                 }

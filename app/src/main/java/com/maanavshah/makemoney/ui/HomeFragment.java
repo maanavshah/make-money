@@ -23,7 +23,6 @@ import com.maanavshah.makemoney.WebViewActivity;
 public class HomeFragment extends Fragment {
 
     private View view;
-    private String result;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
