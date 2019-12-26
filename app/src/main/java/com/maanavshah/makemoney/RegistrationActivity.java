@@ -24,8 +24,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
     //    TODO::MAANAV:: Change this url
-//    public static String REGISTER_REQUEST = "http://10.0.2.2:3000/api/users";
-    public static String REGISTER_REQUEST = "https://makemoneyadmin.herokuapp.com/api/users";
+    public static String REGISTER_REQUEST = "http://10.0.2.2:3000/api/users";
+//    public static String REGISTER_REQUEST = "https://makemoneyadmin.herokuapp.com/api/users";
 
     private EditText et_first_name;
     private EditText et_last_name;

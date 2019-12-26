@@ -42,19 +42,17 @@ public class NavigationActivity extends AppCompatActivity {
         if (add_coins != null) {
             SharedConfig.setConfig(getApplicationContext(), "add_coins", add_coins);
         } else {
-            Toast.makeText(getApplicationContext(), "Error loading coins!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Error loading new coins!", Toast.LENGTH_LONG).show();
             SharedConfig.setConfig(getApplicationContext(), "add_coins", "0");
         }
 
         sNavigationDrawer = findViewById(R.id.navigationDrawer);
 
         //Creating a list of menu Items
-
         List<MenuItem> menuItems = new ArrayList<>();
 
         //Use the MenuItem given by this library and not the default one.
         //First parameter is the title of the menu item and then the second parameter is the image which will be the background of the menu item.
-
         menuItems.add(new MenuItem("Home", R.drawable.news_bg));
         menuItems.add(new MenuItem("Redeem Wallet", R.drawable.music_bg));
         menuItems.add(new MenuItem("Policy Page", R.drawable.message_bg));
