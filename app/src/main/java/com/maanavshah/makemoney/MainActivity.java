@@ -14,7 +14,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         SplashScreenBuilder.Companion.getInstance(this)
                 .setVideo(R.raw.splash_animation)
                 .setImage(R.drawable.app_icon)
@@ -27,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == SplashScreenBuilder.Companion.getSPLASH_SCREEN_FINISHED()) {
             if (resultCode == RESULT_OK) {
                 // SplashScreen finished without manual canceling
-
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
             } else if (resultCode == RESULT_CANCELED) {

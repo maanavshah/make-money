@@ -19,13 +19,14 @@ import im.delight.android.webview.AdvancedWebView;
 
 public class WebViewActivity extends AppCompatActivity implements AdvancedWebView.Listener {
 
-    private static final String GET_CONFIG = "http://10.0.2.2:3000/api/users/get_config";
+    //    private static final String GET_CONFIG = "http://10.0.2.2:3000/api/users/get_config";
+    private static final String GET_CONFIG = "https://makemoneyadmin.herokuapp.com/api/users/get_config";
+
     private AdvancedWebView mWebView;
     private Handler handler1;
     private Runnable eachMinute;
     private String webview_interval;
     private String add_coins;
-    private String webview_url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +35,8 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
         StringBuilder stringBuilder = new StringBuilder(GET_CONFIG);
         stringBuilder.append("?name=webview_url");
-        HttpGetRequest getRequest = new HttpGetRequest(getApplicationContext());
-        webview_url = null;
+        HttpGetRequest getRequest = new HttpGetRequest();
+        String webview_url = null;
         try {
             webview_url = getRequest.execute(stringBuilder.toString()).get();
         } catch (ExecutionException | InterruptedException e) {
@@ -52,7 +53,7 @@ public class WebViewActivity extends AppCompatActivity implements AdvancedWebVie
 
         stringBuilder = new StringBuilder(GET_CONFIG);
         stringBuilder.append("?name=webview_interval");
-        getRequest = new HttpGetRequest(getApplicationContext());
+        getRequest = new HttpGetRequest();
         webview_interval = null;
         try {
             webview_interval = getRequest.execute(stringBuilder.toString()).get();

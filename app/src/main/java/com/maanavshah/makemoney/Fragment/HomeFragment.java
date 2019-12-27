@@ -1,4 +1,4 @@
-package com.maanavshah.makemoney.ui;
+package com.maanavshah.makemoney.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,8 +33,6 @@ public class HomeFragment extends Fragment {
 
         String email = SharedConfig.getConfig(getContext(), "email");
         String coins = SharedConfig.getConfig(getContext(), email);
-        Log.d("Home-Activity", email);
-        Log.d("Home-Activity", coins);
         Header header = view.findViewById(R.id.header);
         header.initHeader(coins);
 

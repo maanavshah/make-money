@@ -2,7 +2,6 @@ package com.maanavshah.makemoney;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -30,6 +29,7 @@ import java.util.TimerTask;
 public class DailyEarnActivity extends AppCompatActivity implements RewardedVideoAdListener, OnProgressBarListener {
 
     private static final String AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917";
+
     private RewardedVideoAd rewardedVideoAd;
     private View tv_retry;
     private NumberProgressBar bnp;
@@ -73,7 +73,6 @@ public class DailyEarnActivity extends AppCompatActivity implements RewardedVide
             }
         }, 1000, 100);
 
-        // Create the "show" button, which shows a rewarded video if one is loaded.
         showVideoButton = findViewById(R.id.show_video_button);
         showVideoButton.setVisibility(View.INVISIBLE);
         showVideoButton.setOnClickListener(new View.OnClickListener() {
@@ -128,26 +127,17 @@ public class DailyEarnActivity extends AppCompatActivity implements RewardedVide
 
     private void add_daily_reward() {
         String daily_reward_date = SharedConfig.getConfig(getApplicationContext(), "daily_reward_date");
-        Log.d("daily reward date", daily_reward_date);
-
         Date current_date = Calendar.getInstance().getTime();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String today_date = dateFormat.format(current_date);
-
-        Log.d("Today Date", today_date);
-
         if (daily_reward_date == null || daily_reward_date.isEmpty()) {
             SharedConfig.setConfig(getApplicationContext(), "daily_reward_date", today_date);
-
         } else {
             try {
                 yesterday_date = dateFormat.parse(daily_reward_date);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            Log.d("Yesterday date", yesterday_date.toString());
-            Log.d("Yesterday date", String.valueOf(!yesterday_date.before(current_date)));
-
             if (!yesterday_date.before(current_date)) {
                 SharedConfig.setConfig(getApplicationContext(), "daily_reward_date", today_date);
                 add_reward_coins();
@@ -156,15 +146,14 @@ public class DailyEarnActivity extends AppCompatActivity implements RewardedVide
             }
         }
     }
+
     private void add_reward_coins() {
         String add_coins = SharedConfig.getConfig(getApplicationContext(), "add_coins");
         String email = SharedConfig.getConfig(getApplicationContext(), "email");
         String coins = SharedConfig.getConfig(getApplicationContext(), email);
         String total_coins = String.valueOf(Integer.valueOf(coins) + Integer.valueOf(add_coins));
-        Log.d("Total coins: ", total_coins);
         Toast.makeText(getApplicationContext(), "Daily reward awarded!", Toast.LENGTH_LONG).show();
         SharedConfig.setConfig(getApplicationContext(), email, total_coins);
-
     }
 
     @Override
@@ -192,5 +181,4 @@ public class DailyEarnActivity extends AppCompatActivity implements RewardedVide
         finish();
         super.onBackPressed();
     }
-
 }

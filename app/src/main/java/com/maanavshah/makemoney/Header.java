@@ -7,9 +7,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class Header extends RelativeLayout {
-    public static final String TAG = Header.class.getSimpleName();
-
-    private TextView label;
 
     public Header(Context context) {
         super(context);
@@ -31,7 +28,7 @@ public class Header extends RelativeLayout {
         LayoutInflater inflater = (LayoutInflater) getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.header, this);
-        label = findViewById(R.id.tv_coins);
+        TextView label = findViewById(R.id.tv_coins);
         label.setText("\u20B9" + " " + value);
     }
 }

@@ -1,4 +1,4 @@
-package com.maanavshah.makemoney.ui;
+package com.maanavshah.makemoney.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,17 +24,17 @@ import java.util.concurrent.ExecutionException;
 
 public class RedeemFragment extends Fragment {
 
-    private static final String REDEEM_COINS_URL = "http://10.0.2.2:3000/api/users/redeem_coins";
-    private View view;
+    //    private static final String REDEEM_COINS_URL = "http://10.0.2.2:3000/api/users/redeem_coins";
+    private static final String REDEEM_COINS_URL = "https://makemoneyadmin.herokuapp.com/api/users/redeem_coins";
+
     private EditText et_coins;
-    private Button btn_redeem;
     private String mobile_number;
     private EditText et_mobile_number;
     private String coins;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_redeem, container, false);
+        View view = inflater.inflate(R.layout.fragment_redeem, container, false);
 
         AdMobNativeAdapter adMobNativeAdapter = new AdMobNativeAdapter(this, view);
         adMobNativeAdapter.setupNativeAdMob();
@@ -45,7 +45,7 @@ public class RedeemFragment extends Fragment {
         header.initHeader(coins);
 
         et_coins = view.findViewById(R.id.et_coins);
-        btn_redeem = view.findViewById(R.id.btn_redeem);
+        Button btn_redeem = view.findViewById(R.id.btn_redeem);
         et_mobile_number = view.findViewById(R.id.et_mobile_number);
 
         btn_redeem.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +66,7 @@ public class RedeemFragment extends Fragment {
                         stringBuilder.append("?collect_coins=").append(input_coins);
                         stringBuilder.append("&mobile_number=").append(mobile_number);
                         stringBuilder.append("&email=").append(email);
-                        HttpGetRequest getRequest = new HttpGetRequest(getContext());
+                        HttpGetRequest getRequest = new HttpGetRequest();
                         try {
                             String result = getRequest.execute(stringBuilder.toString()).get();
                             if (result == null || result.isEmpty()) {

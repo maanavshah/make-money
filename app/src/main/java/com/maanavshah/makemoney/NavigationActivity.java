@@ -1,17 +1,16 @@
 package com.maanavshah.makemoney;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.maanavshah.makemoney.Fragment.HomeFragment;
+import com.maanavshah.makemoney.Fragment.RedeemFragment;
 import com.maanavshah.makemoney.Helper.HttpGetRequest;
 import com.maanavshah.makemoney.Helper.SharedConfig;
-import com.maanavshah.makemoney.ui.HomeFragment;
-import com.maanavshah.makemoney.ui.RedeemFragment;
 import com.shrikanthravi.customnavigationdrawer2.data.MenuItem;
 import com.shrikanthravi.customnavigationdrawer2.widget.SNavigationDrawer;
 
@@ -21,10 +20,12 @@ import java.util.concurrent.ExecutionException;
 
 public class NavigationActivity extends AppCompatActivity {
 
+//    private static final String GET_CONFIG = "http://10.0.2.2:3000/api/users/get_config";
+    private static final String GET_CONFIG = "https://makemoneyadmin.herokuapp.com/api/users/get_config";
+
     public static Fragment fragment;
     SNavigationDrawer sNavigationDrawer;
     Class fragmentClass;
-    private static final String GET_CONFIG = "http://10.0.2.2:3000/api/users/get_config";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +34,13 @@ public class NavigationActivity extends AppCompatActivity {
 
         StringBuilder stringBuilder = new StringBuilder(GET_CONFIG);
         stringBuilder.append("?name=add_coins");
-        HttpGetRequest getRequest = new HttpGetRequest(getApplicationContext());
+        HttpGetRequest getRequest = new HttpGetRequest();
         String add_coins = null;
         try {
             add_coins = getRequest.execute(stringBuilder.toString()).get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
-
         if (add_coins != null) {
             SharedConfig.setConfig(getApplicationContext(), "add_coins", add_coins);
         } else {
@@ -72,24 +72,19 @@ public class NavigationActivity extends AppCompatActivity {
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out).replace(R.id.frameLayout, fragment).commit();
-
         }
 
         //Listener to handle the menu item click. It returns the position of the menu item clicked. Based on that you can switch between the fragments.
         sNavigationDrawer.setOnMenuItemClickListener(new SNavigationDrawer.OnMenuItemClickListener() {
             @Override
             public void onMenuItemClicked(int position) {
-                System.out.println("Position " + position);
-
                 switch (position) {
                     case 0: {
-                        Log.d("NavActivity", "Home Fragment");
                         fragmentClass = HomeFragment.class;
                         sNavigationDrawer.setAppbarTitleTV("Home");
                         break;
                     }
                     case 1: {
-                        Log.d("NavActivity", "Redeem Fragment");
                         fragmentClass = RedeemFragment.class;
                         sNavigationDrawer.setAppbarTitleTV("Redeem Coins");
                         break;
@@ -127,7 +122,6 @@ public class NavigationActivity extends AppCompatActivity {
 
                     @Override
                     public void onDrawerStateChanged(int newState) {
-                        System.out.println("State " + newState);
                     }
                 });
             }

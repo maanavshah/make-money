@@ -23,16 +23,14 @@ import java.net.URL;
 public class RegistrationActivity extends AppCompatActivity {
 
 
-    //    TODO::MAANAV:: Change this url
-    public static String REGISTER_REQUEST = "http://10.0.2.2:3000/api/users";
-//    public static String REGISTER_REQUEST = "https://makemoneyadmin.herokuapp.com/api/users";
+    //    public static String REGISTER_REQUEST = "http://10.0.2.2:3000/api/users";
+    public static String REGISTER_REQUEST = "https://makemoneyadmin.herokuapp.com/api/users";
 
     private EditText et_first_name;
     private EditText et_last_name;
     private EditText et_email;
     private EditText et_password;
     private EditText et_confirm_password;
-    private Button register;
     private String first_name;
     private String last_name;
     private String email;
@@ -50,7 +48,7 @@ public class RegistrationActivity extends AppCompatActivity {
         et_password = findViewById(R.id.register_password);
         et_confirm_password = findViewById(R.id.register_password_confirm);
 
-        register = findViewById(R.id.button_register);
+        Button register = findViewById(R.id.button_register);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override

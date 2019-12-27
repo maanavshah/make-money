@@ -30,6 +30,7 @@ import in.myinnos.androidscratchcard.ScratchCard;
 public class ScratchActivity extends AppCompatActivity implements RewardedVideoAdListener, OnProgressBarListener {
 
     private static final String AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917";
+
     private RewardedVideoAd rewardedVideoAd;
     private Button retryButton;
     private ScratchCard mScratchCard;
@@ -164,7 +165,6 @@ public class ScratchActivity extends AppCompatActivity implements RewardedVideoA
         String email = SharedConfig.getConfig(getApplicationContext(), "email");
         String coins = SharedConfig.getConfig(getApplicationContext(), email);
         String total_coins = String.valueOf(Integer.valueOf(coins) + randomNumber);
-        Log.d("Total coins: ", total_coins);
         Toast.makeText(getApplicationContext(), "Scratch Coins awarded: " + randomNumber + "!", Toast.LENGTH_LONG).show();
         SharedConfig.setConfig(getApplicationContext(), email, total_coins);
     }

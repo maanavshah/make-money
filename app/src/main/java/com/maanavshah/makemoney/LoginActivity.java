@@ -3,7 +3,6 @@ package com.maanavshah.makemoney;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -27,16 +26,17 @@ import java.net.URLEncoder;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static String LOGIN_REQUEST = "http://10.0.2.2:3000/api/users/sign_in";
-//    public static String LOGIN_REQUEST = "https://makemoneyadmin.herokuapp.com/api/users/sign_in";
-    public static String WALLET_REQUEST = "http://10.0.2.2:3000/api/users/set_coins";
-    public static String GET_COINS_URL = "http://10.0.2.2:3000/api/users/get_coins";
-    public static String SET_COINS_URL = "http://10.0.2.2:3000/api/users/set_coins";
+//    public static String LOGIN_REQUEST_URL = "http://10.0.2.2:3000/api/users/sign_in";
+//    public static String SET_COINS_URL = "http://10.0.2.2:3000/api/users/set_coins";
+//    public static String GET_COINS_URL = "http://10.0.2.2:3000/api/users/get_coins";
+    public static String LOGIN_REQUEST_URL = "https://makemoneyadmin.herokuapp.com/api/users/sign_in";
+    public static String SET_COINS_URL = "https://makemoneyadmin.herokuapp.com/api/users/set_coins";
+    public static String GET_COINS_URL = "https://makemoneyadmin.herokuapp.com/api/users/get_coins";
+
+
 
     private EditText et_email;
     private EditText et_password;
-    private Button login;
-    private Button new_register;
     private String email;
     private String password;
     private StringBuilder stringBuilder;
@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         et_email = findViewById(R.id.login_email);
         et_password = findViewById(R.id.login_password);
 
-        new_register = findViewById(R.id.button_new_register);
+        Button new_register = findViewById(R.id.button_new_register);
         new_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
-        login = findViewById(R.id.button_login);
+        Button login = findViewById(R.id.button_login);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    URL url = new URL(LOGIN_REQUEST);
+                    URL url = new URL(LOGIN_REQUEST_URL);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
@@ -122,29 +122,22 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (responseCode.equals("200")) {
                         SharedConfig.setConfig(getApplicationContext(), "email", email);
-                        Log.d("Login-Activity", email);
                         String coins = SharedConfig.getConfig(getApplicationContext(), email);
-                        Log.d("Login-Activity coins", coins);
                         if (coins.isEmpty()) {
-                            Log.d("Login-Activity empty", coins);
                             stringBuilder = new StringBuilder(GET_COINS_URL);
                             stringBuilder.append("?email=");
                         } else {
-                            Log.d("Login-Activ not empty", coins);
-                            stringBuilder = new StringBuilder(WALLET_REQUEST);
+                            stringBuilder = new StringBuilder(SET_COINS_URL);
                             stringBuilder.append("?coins=");
                             stringBuilder.append(URLEncoder.encode(coins, "UTF-8"));
                             stringBuilder.append("&email=");
                         }
 
                         stringBuilder.append(URLEncoder.encode(email, "UTF-8"));
-                        Log.d("Login-Activity url", stringBuilder.toString());
-                        HttpGetRequest getRequest = new HttpGetRequest(getApplicationContext());
+                        HttpGetRequest getRequest = new HttpGetRequest();
                         coins = getRequest.execute(stringBuilder.toString()).get();
 
                         if (coins != null) {
-                            Log.d("Login-Activity null", email);
-                            Log.d("Login-Activity null", coins);
                             SharedConfig.setConfig(getApplicationContext(), email, coins);
                         } else {
                             Toast.makeText(getApplicationContext(), "User email not found!", Toast.LENGTH_LONG).show();
