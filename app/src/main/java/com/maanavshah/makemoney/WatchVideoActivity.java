@@ -25,7 +25,8 @@ import java.util.TimerTask;
 
 public class WatchVideoActivity extends AppCompatActivity implements RewardedVideoAdListener, OnProgressBarListener {
 
-    private static final String AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917";
+    // private static final String AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917"; // test
+    private static final String AD_UNIT_ID = "ca-app-pub-6248472392921579/2934641521";
 
     private RewardedVideoAd rewardedVideoAd;
     private Button showVideoButton;
@@ -128,6 +129,7 @@ public class WatchVideoActivity extends AppCompatActivity implements RewardedVid
         String email = SharedConfig.getConfig(getApplicationContext(), "email");
         String coins = SharedConfig.getConfig(getApplicationContext(), email);
         SharedConfig.setConfig(getApplicationContext(), email, String.valueOf(Integer.valueOf(coins) + Integer.valueOf(add_coins)));
+        Toast.makeText(getApplicationContext(), "Rewarded " + add_coins + " coins! Watch more to win more!", Toast.LENGTH_LONG).show();
         bnp.setProgress(0);
     }
 
@@ -150,10 +152,16 @@ public class WatchVideoActivity extends AppCompatActivity implements RewardedVid
         }
     }
 
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     @Override
     public void onBackPressed() {
         startActivity(new Intent(getApplicationContext(), NavigationActivity.class));
         finish();
+        rewardedVideoAd = null;
+        onDestroy();
         super.onBackPressed();
     }
 }

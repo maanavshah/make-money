@@ -2,7 +2,6 @@ package com.maanavshah.makemoney;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -29,7 +28,8 @@ import in.myinnos.androidscratchcard.ScratchCard;
 
 public class ScratchActivity extends AppCompatActivity implements RewardedVideoAdListener, OnProgressBarListener {
 
-    private static final String AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917";
+    // private static final String AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917"; // test
+    private static final String AD_UNIT_ID = "ca-app-pub-6248472392921579/2934641521";
 
     private RewardedVideoAd rewardedVideoAd;
     private Button retryButton;
@@ -188,10 +188,16 @@ public class ScratchActivity extends AppCompatActivity implements RewardedVideoA
         }
     }
 
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     @Override
     public void onBackPressed() {
         startActivity(new Intent(getApplicationContext(), NavigationActivity.class));
         finish();
+        rewardedVideoAd = null;
+        onDestroy();
         super.onBackPressed();
     }
 }
