@@ -2,7 +2,6 @@ package com.maanavshah.makemoney.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +21,10 @@ import com.maanavshah.makemoney.WebViewActivity;
 
 public class HomeFragment extends Fragment {
 
-    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_home, container, false);
+        final View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         AdMobNativeAdapter adMobNativeAdapter = new AdMobNativeAdapter(this, view);
         adMobNativeAdapter.setupNativeAdMob();
@@ -36,11 +34,6 @@ public class HomeFragment extends Fragment {
         Header header = view.findViewById(R.id.header);
         header.initHeader(coins);
 
-        init();
-        return view;
-    }
-
-    private void init() {
         Button btn_watch_video = view.findViewById(R.id.btn_watch_video);
         btn_watch_video.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +66,7 @@ public class HomeFragment extends Fragment {
                 getActivity().finish();
             }
         });
+        return view;
     }
 
     @Override

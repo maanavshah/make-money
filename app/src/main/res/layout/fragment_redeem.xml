@@ -30,7 +30,6 @@
                     android:layout_margin="40dp"
                     android:inputType="numberSigned" />
 
-
                 <EditText
                     android:id="@+id/et_mobile_number"
                     android:layout_width="match_parent"

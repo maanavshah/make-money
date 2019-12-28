@@ -26,8 +26,8 @@ import com.maanavshah.makemoney.R;
 
 public class AdMobNativeAdapter {
 
-    // private static final String ADMOB_AD_UNIT_ID = "ca-app-pub-3940256099942544/2247696110"; // test
-    private static final String ADMOB_AD_UNIT_ID = "ca-app-pub-6248472392921579/8186968202";
+     private static final String ADMOB_AD_UNIT_ID = "ca-app-pub-3940256099942544/2247696110"; // test
+//    private static final String ADMOB_AD_UNIT_ID = "ca-app-pub-4388442185204641/1973392570";
     private final Fragment fragment;
     private final View view;
     private Button refresh;

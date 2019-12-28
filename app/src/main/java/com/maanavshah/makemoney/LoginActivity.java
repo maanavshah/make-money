@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.maanavshah.makemoney.Helper.HttpGetRequest;
 import com.maanavshah.makemoney.Helper.SharedConfig;
 
@@ -23,8 +24,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
 //    public static String LOGIN_REQUEST_URL = "http://10.0.2.2:3000/api/users/sign_in";
 //    public static String SET_COINS_URL = "http://10.0.2.2:3000/api/users/set_coins";
@@ -33,13 +36,13 @@ public class LoginActivity extends AppCompatActivity {
     public static String SET_COINS_URL = "https://makemoneyadmin.herokuapp.com/api/users/set_coins";
     public static String GET_COINS_URL = "https://makemoneyadmin.herokuapp.com/api/users/get_coins";
 
-
-
     private EditText et_email;
     private EditText et_password;
     private String email;
     private String password;
     private StringBuilder stringBuilder;
+    private NumberProgressBar bnp;
+    private Button login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,11 @@ public class LoginActivity extends AppCompatActivity {
         et_email = findViewById(R.id.login_email);
         et_password = findViewById(R.id.login_password);
 
+        bnp = findViewById(R.id.number_progress_bar);
+        bnp.setVisibility(View.GONE);
+        bnp.setOnClickListener(this);
+
+
         Button new_register = findViewById(R.id.button_new_register);
         new_register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,15 +65,34 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
-        Button login = findViewById(R.id.button_login);
+        login = findViewById(R.id.button_login);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                login.setVisibility(View.GONE);
+                bnp.setVisibility(View.VISIBLE);
                 if (isValid()) {
+                    Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (bnp.getProgress() < 99) {
+                                        bnp.incrementProgressBy(1);
+                                    } else {
+                                        cancel();
+                                    }
+                                }
+                            });
+                        }
+                    }, 1000, 100);
                     sendLoginRequest();
                 }
             }
         });
+
     }
 
     private void sendLoginRequest() {
@@ -120,6 +147,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     conn.disconnect();
 
+                    bnp.setProgress(100);
+
                     if (responseCode.equals("200")) {
                         SharedConfig.setConfig(getApplicationContext(), "email", email);
                         String coins = SharedConfig.getConfig(getApplicationContext(), email);
@@ -150,6 +179,10 @@ public class LoginActivity extends AppCompatActivity {
                                 finish();
                             }
                         });
+                    } else {
+                        bnp.setProgress(100);
+                        bnp.setVisibility(View.GONE);
+                        login.setVisibility(View.VISIBLE);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -182,5 +215,10 @@ public class LoginActivity extends AppCompatActivity {
     private void getInputData() {
         email = et_email.getText().toString();
         password = et_password.getText().toString();
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }
