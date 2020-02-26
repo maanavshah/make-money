@@ -32,13 +32,14 @@ public class WatchVideoActivity extends AppCompatActivity implements RewardedVid
     private Button showVideoButton;
     private NumberProgressBar bnp;
     private TextView tv_retry;
+    private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watch_video);
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+        MobileAds.initialize(getApplicationContext(), new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
@@ -52,8 +53,7 @@ public class WatchVideoActivity extends AppCompatActivity implements RewardedVid
         Toast.makeText(this, "Loading Reward Video!", Toast.LENGTH_SHORT).show();
 
         bnp = findViewById(R.id.number_progress_bar);
-        bnp.setOnProgressBarListener(this);
-        Timer timer = new Timer();
+            timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -62,6 +62,8 @@ public class WatchVideoActivity extends AppCompatActivity implements RewardedVid
                     public void run() {
                         if (bnp.getProgress() < 99) {
                             bnp.incrementProgressBy(1);
+                        } else {
+                            cancel();
                         }
                     }
                 });
@@ -74,7 +76,26 @@ public class WatchVideoActivity extends AppCompatActivity implements RewardedVid
         showVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showRewardedVideo();
+                loadRewardedVideoAd();
+                bnp.setProgress(0);
+                tv_retry.setVisibility(View.VISIBLE);
+                bnp.setVisibility(View.VISIBLE);
+
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (bnp.getProgress() < 99) {
+                                    bnp.incrementProgressBy(1);
+                                } else {
+                                    cancel();
+                                }
+                            }
+                        });
+                    }
+                }, 1000, 100);
             }
         });
     }
@@ -83,30 +104,22 @@ public class WatchVideoActivity extends AppCompatActivity implements RewardedVid
         showVideoButton.setVisibility(View.INVISIBLE);
         if (rewardedVideoAd.isLoaded()) {
             rewardedVideoAd.show();
-        } else {
-            loadRewardedVideoAd();
-            Toast.makeText(getApplicationContext(), "Loading Ad!", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void loadRewardedVideoAd() {
         if (!rewardedVideoAd.isLoaded()) {
             rewardedVideoAd.loadAd(AD_UNIT_ID, new AdRequest.Builder().build());
-            if (tv_retry != null) {
-                tv_retry.setVisibility(View.VISIBLE);
-            }
-            if (bnp != null) {
-                bnp.setVisibility(View.VISIBLE);
-            }
         }
     }
 
     @Override
     public void onRewardedVideoAdLoaded() {
         bnp.setProgress(100);
-        showVideoButton.setVisibility(View.VISIBLE);
+        showVideoButton.setVisibility(View.INVISIBLE);
         tv_retry.setVisibility(View.INVISIBLE);
         bnp.setVisibility(View.INVISIBLE);
+        showRewardedVideo();
     }
 
     @Override
@@ -119,8 +132,7 @@ public class WatchVideoActivity extends AppCompatActivity implements RewardedVid
 
     @Override
     public void onRewardedVideoAdClosed() {
-        // Preload the next video ad.
-        loadRewardedVideoAd();
+        showVideoButton.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -153,6 +165,7 @@ public class WatchVideoActivity extends AppCompatActivity implements RewardedVid
     }
 
     protected void onDestroy() {
+        Toast.makeText(getApplicationContext(), "destroy called", Toast.LENGTH_SHORT).show();
         super.onDestroy();
     }
 
@@ -160,8 +173,10 @@ public class WatchVideoActivity extends AppCompatActivity implements RewardedVid
     public void onBackPressed() {
         startActivity(new Intent(getApplicationContext(), NavigationActivity.class));
         finish();
-        rewardedVideoAd = null;
-        onDestroy();
+        timer.cancel();
+        if (rewardedVideoAd != null) {
+            rewardedVideoAd.destroy(getApplicationContext());
+        }
         super.onBackPressed();
     }
 }

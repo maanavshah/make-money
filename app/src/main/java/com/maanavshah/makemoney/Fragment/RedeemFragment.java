@@ -55,7 +55,7 @@ public class RedeemFragment extends Fragment {
                 mobile_number = et_mobile_number.getText().toString();
                 if (input_coins.isEmpty()) {
                     et_coins.setError("Enter coins");
-                } else if (mobile_number.isEmpty() || !android.util.Patterns.PHONE.matcher(mobile_number).matches()) {
+                } else if (mobile_number.isEmpty() || !android.util.Patterns.PHONE.matcher(mobile_number).matches() || mobile_number.length() != 10) {
                     et_mobile_number.setError("Enter valid phone number");
                     Toast.makeText(getContext(), "Please enter a valid phone number to collect reward!", Toast.LENGTH_LONG).show();
                 } else {

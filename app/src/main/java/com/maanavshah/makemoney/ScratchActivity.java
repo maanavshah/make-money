@@ -29,7 +29,7 @@ import in.myinnos.androidscratchcard.ScratchCard;
 public class ScratchActivity extends AppCompatActivity implements RewardedVideoAdListener, OnProgressBarListener {
 
      private static final String AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917"; // test
-//    private static final String AD_UNIT_ID = "ca-app-pub-4388442185204641/6485430762";
+//    private static final String AD_UNIT_ID = "ca-app-pub-6248472392921579/2934641521";
 
     private RewardedVideoAd rewardedVideoAd;
     private Button retryButton;
@@ -39,6 +39,7 @@ public class ScratchActivity extends AppCompatActivity implements RewardedVideoA
     private int randomNumber;
     private TextView tv_retry;
     private boolean showOnce;
+    private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +53,13 @@ public class ScratchActivity extends AppCompatActivity implements RewardedVideoA
         });
         rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
         rewardedVideoAd.setRewardedVideoAdListener(this);
-        loadRewardedVideoAd();
+
         Toast.makeText(this, "Loading Reward Video!", Toast.LENGTH_SHORT).show();
 
         tv_retry = findViewById(R.id.tv_retry);
         bnp = findViewById(R.id.number_progress_bar);
         bnp.setOnProgressBarListener(this);
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -72,6 +73,8 @@ public class ScratchActivity extends AppCompatActivity implements RewardedVideoA
                 });
             }
         }, 1000, 100);
+
+        loadRewardedVideoAd();
 
         tv_scratch_card = findViewById(R.id.tv_scratch_card);
         mScratchCard = findViewById(R.id.view_scratch_card);
@@ -88,7 +91,13 @@ public class ScratchActivity extends AppCompatActivity implements RewardedVideoA
                     loadRewardedVideoAd();
                     mScratchCard.setVisibility(View.GONE);
                     add_reward_coins();
-                    retryButton.setVisibility(View.VISIBLE);
+                            startActivity(new Intent(getApplicationContext(), NavigationActivity.class));
+        finish();
+        timer.cancel();
+        if (rewardedVideoAd != null) {
+            rewardedVideoAd.destroy(getApplicationContext());
+        }
+//                    retryButton.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -141,6 +150,7 @@ public class ScratchActivity extends AppCompatActivity implements RewardedVideoA
     @Override
     public void onRewardedVideoAdOpened() {
     }
+
 
     @Override
     public void onRewardedVideoStarted() {
@@ -196,8 +206,10 @@ public class ScratchActivity extends AppCompatActivity implements RewardedVideoA
     public void onBackPressed() {
         startActivity(new Intent(getApplicationContext(), NavigationActivity.class));
         finish();
-        rewardedVideoAd = null;
-        onDestroy();
+        timer.cancel();
+        if (rewardedVideoAd != null) {
+            rewardedVideoAd.destroy(getApplicationContext());
+        }
         super.onBackPressed();
     }
 }

@@ -28,7 +28,7 @@ import java.util.TimerTask;
 
 public class DailyEarnActivity extends AppCompatActivity implements RewardedVideoAdListener, OnProgressBarListener {
 
-     private static final String AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917"; // test
+    private static final String AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917"; // test
 //    private static final String AD_UNIT_ID = "ca-app-pub-4388442185204641/6485430762";
 
     private RewardedVideoAd rewardedVideoAd;
@@ -36,6 +36,7 @@ public class DailyEarnActivity extends AppCompatActivity implements RewardedVide
     private NumberProgressBar bnp;
     private Button showVideoButton;
     private Date yesterday_date;
+    private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,7 @@ public class DailyEarnActivity extends AppCompatActivity implements RewardedVide
 
         bnp = findViewById(R.id.number_progress_bar);
         bnp.setOnProgressBarListener(this);
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -88,9 +89,6 @@ public class DailyEarnActivity extends AppCompatActivity implements RewardedVide
         showVideoButton.setVisibility(View.INVISIBLE);
         if (rewardedVideoAd.isLoaded()) {
             rewardedVideoAd.show();
-        } else {
-            loadRewardedVideoAd();
-            Toast.makeText(getApplicationContext(), "Loading Ad!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -119,6 +117,12 @@ public class DailyEarnActivity extends AppCompatActivity implements RewardedVide
     @Override
     public void onRewardedVideoAdClosed() {
         startActivity(new Intent(getApplicationContext(), NavigationActivity.class));
+        finish();
+        timer.cancel();
+        if (rewardedVideoAd != null) {
+            rewardedVideoAd.destroy(getApplicationContext());
+            Toast.makeText(getApplicationContext(), "ad destroy", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -184,8 +188,10 @@ public class DailyEarnActivity extends AppCompatActivity implements RewardedVide
     public void onBackPressed() {
         startActivity(new Intent(getApplicationContext(), NavigationActivity.class));
         finish();
-        rewardedVideoAd = null;
-        onDestroy();
+        timer.cancel();
+        if (rewardedVideoAd != null) {
+            rewardedVideoAd.destroy(getApplicationContext());
+        }
         super.onBackPressed();
     }
 }

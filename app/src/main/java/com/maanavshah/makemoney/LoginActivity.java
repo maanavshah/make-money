@@ -69,7 +69,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login.setVisibility(View.GONE);
                 bnp.setVisibility(View.VISIBLE);
                 if (isValid()) {
                     Timer timer = new Timer();
@@ -96,7 +95,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void sendLoginRequest() {
-
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -184,6 +182,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         bnp.setVisibility(View.GONE);
                         login.setVisibility(View.VISIBLE);
                     }
+                    bnp.setVisibility(View.GONE);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
